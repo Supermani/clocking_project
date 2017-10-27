@@ -21,7 +21,7 @@ function fileDownloadForMon(){
 	if(startDate==null || startDate=="" || endDate==null || endDate==""){
 		alert("请选择起止日期!");
 	}else{
-		$.download("/clocking/exprotMonthly","GET",name,startDate,endDate,isOnJob);
+		$.download("/clocking/exportMonthly","GET",name,startDate,endDate,isOnJob);
 	}
 }
 

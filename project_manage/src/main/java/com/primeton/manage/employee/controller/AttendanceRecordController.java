@@ -156,7 +156,7 @@ public class AttendanceRecordController {
 		return;
 	}
 	
-	@GetMapping(value="exprotMonthly")
+	@GetMapping(value="exportMonthly")
 	public void exportMonthlyCalcInfo(HttpServletRequest request, HttpServletResponse response, 
 			@RequestParam(name = "name", required = false) String name,
 			@RequestParam(name = "startDate", required = false) String startDate,
