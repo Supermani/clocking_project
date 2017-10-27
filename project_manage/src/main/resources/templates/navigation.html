@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" class="login-content" data-ng-app="materialAdmin" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>bootstrap实现导航栏的响应式布局，当在小屏幕、手机屏幕浏览时自动折叠隐藏</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!-- CSS Libs -->
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/animate.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/bootstrap-switch.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/checkbox3.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/jquery.dataTables.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/dataTables.bootstrap.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/lib/css/select2.min.css}"/>
+    <!-- CSS App -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/themes/flat-blue.css}"/>
+</head>
+
+<body class="flat-blue">
+<div class="app-container">
+    <div class="row content-container">
+        <!-- 导航栏 -->
+        <nav class="navbar navbar-default navbar-fixed-top navbar-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-expand-toggle">
+                        <i class="fa fa-bars icon"></i>
+                    </button>
+                    <ol class="breadcrumb navbar-breadcrumb">
+                        <li class="active"><a href="#">Primeton</a></li>
+                    </ol>
+                    <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
+                        <i class="fa fa-th icon"></i>
+                    </button>
+                </div>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Change Password</a></li>
+                    <li><a href="#">Log Out</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- 菜单 -->
+        <div class="side-menu sidebar-inverse">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="side-menu-container">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="#">
+                            <div class="icon fa fa-paper-plane"></div>
+                            <div class="title">Menu</div>
+                        </a>
+                        <button type="button" class="navbar-expand-toggle pull-right visible-xs">
+                            <i class="fa fa-times icon"></i>
+                        </button>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <!-- Dropdown-->
+                        <li class="panel panel-default dropdown">
+                            <a data-toggle="collapse" href="#dropdown-element">
+                                <span class="icon fa fa-desktop"></span><span class="title">员工</span>
+                            </a>
+                            <!-- Dropdown level 1 -->
+                            <div id="dropdown-element" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul class="nav navbar-nav">
+                                        <li><a th:href="@{/emp/index}">员工信息</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- Dropdown-->
+                        <li class="panel panel-default dropdown">
+                            <a data-toggle="collapse" href="#dropdown-table">
+                                <span class="icon fa fa-table"></span><span class="title">考勤</span>
+                            </a>
+                            <!-- Dropdown level 1 -->
+                            <div id="dropdown-table" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <ul class="nav navbar-nav">
+                                        <li><a th:href="@{/clocking/index}">考勤信息</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid">
+            <div class="side-body padding-top">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h4>欢迎使用Primeton考勤系统！</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<!-- Javascript Libs -->
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script type="text/javascript" th:src="@{/lib/js/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/lib/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/lib/js/Chart.min.js}" ></script>
+<script type="text/javascript" th:src="@{/lib/js/bootstrap-switch.min.js}" ></script>
+<script type="text/javascript" th:src="@{/lib/js/jquery.matchHeight-min.js}" ></script>
+<script type="text/javascript" th:src="@{/lib/js/jquery.dataTables.min.js}" ></script>
+<script type="text/javascript" th:src="@{/lib/js/dataTables.bootstrap.min.js}" ></script>
+<script type="text/javascript" th:src="@{/lib/js/select2.full.min.js}" ></script>
+<script type="text/javascript" th:src="@{/lib/js/ace/ace.js}" ></script>
+<script type="text/javascript" th:src="@{/lib/js/ace/mode-html.js}" ></script>
+<script type="text/javascript" th:src="@{/lib/js/ace/theme-github.js}" ></script>
+<!-- Javascript -->
+<script type="text/javascript" th:src="@{/js/app.js}" ></script>
+<script type="text/javascript" th:src="@{/js/index.js}" ></script>
+
+</body>
+</html>
