@@ -296,9 +296,9 @@ a:hover {
       .app-container .content-container .side-menu:hover .panel-collapse.in {
         display: block; }
     .app-container .content-container .side-body {
-      padding-top: 70px; }
+      padding-top: 69px; }
     .app-container .content-container .side-body.padding-top {
-      padding-top: 84px; }
+      padding-top: 70px; }
 
 .app-container.expanded .app-footer {
   left: 250px; }
@@ -355,8 +355,8 @@ a:hover {
 
 /* Main body section */
 .app-container .side-body {
-  margin-left: 75px;
-  margin-right: 15px;
+  margin-left: 50px;
+  margin-right: 0px;
   -webkit-transition: all 0.25s;
   transition: all 0.25s; }
 
