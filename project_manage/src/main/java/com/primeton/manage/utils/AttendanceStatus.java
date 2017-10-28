@@ -13,7 +13,8 @@ public enum AttendanceStatus {
 	LATEANDLEAVE(3, "即迟到又早退"), 
 	INCOMPLETE(4,"打卡记录不完整"),
 	HOLIDAYWORKING(5,"节假日加班"),
-	HOLIDAYWORKINGHALF(6,"节假日加班半天");
+	HOLIDAYWORKINGHALF(6,"节假日加班半天"),
+	LEAVE_APPLICATION(7, "请假");
 
 	// 定义私有变量
 	public int id;

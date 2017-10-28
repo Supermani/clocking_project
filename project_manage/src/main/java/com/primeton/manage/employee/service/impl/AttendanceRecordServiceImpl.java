@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.primeton.manage.utils.DateType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -99,13 +100,20 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 
 					String week = row.getCell(2).getStringCellValue();
 
-					java.sql.Date attendanceDate = java.sql.Date.valueOf(ExcelUtils.parseExcel(row.getCell(3)));
+					String attendanceStr = ExcelUtils.parseExcel(row.getCell(3));
+					java.sql.Date attendanceDate = java.sql.Date.valueOf(attendanceStr);
 
 					String inTime = ExcelUtils.parseExcel(row.getCell(6));
 
 					String outTime = ExcelUtils.parseExcel(row.getCell(7));
 					
 					if(StringUtils.isEmpty(inTime) && StringUtils.isEmpty(outTime)){
+						// 如果今天是工作日并且没有出勤记录则插入一条请假记录
+						if(holidayCacheService.getTypeFromCache(attendanceStr) == DateType.HOLIDAY.getType()){
+							list.add(new AttendanceRecord(id, attendanceDate, week, null, null, null, null,
+									0, AttendanceStatus.LEAVE_APPLICATION.id));
+						}
+
 						logger.info("签到和签退时间都为空, 可能为无效数据跳过该行. 行号:" + startRowNum);
 						startRowNum += 1;
 						continue;
