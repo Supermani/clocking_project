@@ -3,9 +3,29 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>考勤记录</title>
-<!-- 引入 Bootstrap -->
-<link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css" />
+	<title>考勤记录</title>
+
+	<!-- CSS Libs -->
+	<link rel="stylesheet" type="text/css" th:href="@{/lib/css/bootstrap.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/lib/css/font-awesome.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/lib/css/animate.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/lib/css/bootstrap-switch.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/lib/css/checkbox3.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/lib/css/jquery.dataTables.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/lib/css/dataTables.bootstrap.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/lib/css/select2.min.css}"/>
+	<!-- CSS App -->
+	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/themes/flat-blue.css}"/>
+
+<style type="text/css">
+	.warn{
+		background-color:#ffff00;
+	}
+	.error{
+		background-color:#ff0000;
+	}
+</style>
 </head>
 <body>
 	<div class="container-fluid">
@@ -32,7 +52,7 @@
 					<form class="form-inline" th:action="@{/clocking/index}">
 						<div class="form-group">
 							<label for="name">姓名:</label>
-							<input type="text" class="fo	rm-control" id="name" name="name" th:value="${name}" placeholder="请输入姓名"/>
+							<input type="text" class="form-control" id="name" name="name" th:value="${name}" placeholder="请输入姓名"/>
 						</div>
 						<div class="form-group">
 							<label for="jobinDate">开始日期:</label>
@@ -61,7 +81,7 @@
 			</div>
 
 			<div>
-				<table class="table table-bordered table-hover table-condensed" id="att_table">
+				<table class="table table-bordered table-condensed" id="att_table">
 					<thead>
 					<tr class="info">
 						<th>编号</th>
@@ -81,7 +101,7 @@
 					<tbody>
 					<tr th:each="att:${page.content}">
 						<td th:text="${att.id}"></td>
-						　　　　　　　　　　	<td th:text="${att.empName}"></td>
+						<td th:text="${att.empName}"></td>
 						<td th:text="${att.todayWeek}"></td>
 						<td th:text="${att.attendanceDate}"></td>
 						<td th:text="${att.signinTime}"></td>
@@ -204,7 +224,6 @@
 						</a></li>
 					</ul>
 				</div>
-
 			</div>
 
 		</div>

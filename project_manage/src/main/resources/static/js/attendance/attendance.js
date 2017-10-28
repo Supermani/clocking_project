@@ -48,12 +48,12 @@ $(function(){
 		var inTime = tdArr.eq(4).html();
 		var outTime = tdArr.eq(5).html();
 		if(inTime == null || inTime == "" || outTime == null || outTime == ""){
-			$(trList.eq(i)).addClass("danger");
+            $(trList.eq(i)).addClass("error");
 		}
 		var late = tdArr.eq(7).html();
 		var leave = tdArr.eq(8).html();
 		if((late != null && late != "" && late > 0) || leave != null && leave != "" && leave > 0){
-			$(trList.eq(i)).addClass("warning");
+			$(trList.eq(i)).addClass("warn");
 		}
 	}
 });
