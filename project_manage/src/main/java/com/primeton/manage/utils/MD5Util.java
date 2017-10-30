@@ -6,7 +6,7 @@ public class MD5Util {
 
 	 public static String bytesToHex(byte[] bytes) {  
 		    StringBuffer md5str = new StringBuffer();  
-		    // 把数组每一字节换成16进制连成md5字符串  1
+		    // 把数组每一字节换成16进制连成md5字符串  12
 		    int digital;  
 		    for (int i = 0; i < bytes.length; i++) {  
 		        digital = bytes[i];  
