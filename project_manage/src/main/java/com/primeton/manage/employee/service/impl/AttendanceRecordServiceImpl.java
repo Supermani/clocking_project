@@ -266,7 +266,13 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 			stb.append(" and ar.attendanceDate <='").append(endDate).append("'");
 		} 
 		if (!"".equals(isOnJob) && isOnJob != null && !"null".equals(isOnJob)) {
-			stb.append(" and ar.flag = ").append(isOnJob);
+			if(AttendanceStatus.EXCEPTION.id.toString().equals(isOnJob)){
+				// 异常是指 ： 迟到，早退，打卡不完整，即迟到又早退
+				stb.append(" and ar.flag in (1,2,3,4)");
+			} else{
+				stb.append(" and ar.flag = ").append(isOnJob);
+			}
+
 		}
 		
 		stb.append("order by MONTH (ar.attendanceDate) DESC, ar.empId, DAY(ar.attendanceDate)");

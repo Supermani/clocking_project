@@ -4,6 +4,7 @@ import com.primeton.manage.employee.entity.AttendanceRecord;
 import com.primeton.manage.employee.service.AttendanceRecordService;
 import com.primeton.manage.employee.service.EmployeeInfoService;
 import com.primeton.manage.statistics.AttendanceCalculation;
+import com.primeton.manage.utils.AttendanceStatus;
 import com.primeton.manage.utils.ConstUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -82,6 +83,7 @@ public class AttendanceRecordController {
 		model.addAttribute("startDate", startDate);
 		model.addAttribute("endDate", endDate);
 		model.addAttribute("isOnJob", isOnJob);
+		model.addAttribute("attendanceList", AttendanceStatus.allAttendance);
 
 		String url = request.getRequestURI() + "?" + request.getQueryString();
 		if (StringUtils.isEmpty(request.getQueryString())) {
