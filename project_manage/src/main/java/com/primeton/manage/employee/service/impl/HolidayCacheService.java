@@ -38,15 +38,15 @@ public class HolidayCacheService {
 		// 缓存没有
 		if (dateType == null) {
 			System.out.println("缓存没有命中, 查询数据库");
-			dateType = holidayRepository.findDateTypeBy(java.sql.Date.valueOf(LocalDate.parse(date)));
+			dateType = holidayRepository.findDateTypeBy(java.sql.Date.valueOf(date));
 			return updateCache(date, dateType);
 		}
 
 		return holidayCache.get(date);
 	}
-	
+
 	@CachePut(value = "guavaCacheHoliday", key = "#date")
-	private Integer updateCache(String date, Integer dateType) {
+	public Integer updateCache(String date, Integer dateType) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		System.out.println(sdf.format(new Date()) + " : add data ,date is " + date);
 		holidayCache.put(date, dateType);
