@@ -46,7 +46,7 @@ public class HolidayCacheService {
 	}
 	
 	@CachePut(value = "guavaCacheHoliday", key = "#date")
-	private Integer updateCache(String date, Integer dateType) {
+	public Integer updateCache(String date, Integer dateType) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		System.out.println(sdf.format(new Date()) + " : add data ,date is " + date);
 		holidayCache.put(date, dateType);
