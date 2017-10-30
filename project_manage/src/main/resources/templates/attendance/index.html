@@ -73,7 +73,7 @@
                             <select class="form-control" id="isOnJob" name="isOnJob">
                                 <option value="">--请选择--</option>
                                 <option th:each="item:${attendanceList}" th:value="${item.id}"
-                                        th:selected="${isOnJob eq '${item.id}'}?selected"
+                                        th:selected="${isOnJob} == ${item.id}"
                                         th:text=" ${item.explain}">
                                 </option>
                                 <!--
