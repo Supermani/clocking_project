@@ -122,7 +122,8 @@
                         <td th:text="${att.lateTime}"></td>
                         <td th:text="${att.leaveTime}"></td>
                         <td th:text="${att.workOuttime}"></td>
-                        <td th:text="${att.flag == 0 ? '正常' : att.flag == 1 ? '迟到' :att.flag == 2 ?'早退' :att.flag == 3 ? '既迟到又早退' : att.flag == 4 ? '打卡记录不完整' : '节假日加班'}"></td>
+                        <td th:text="${att.flag == 0 ? '正常' : att.flag == 1 ? '迟到' : att.flag == 2 ?'早退' : att.flag == 3 ? '既迟到又早退' : att.flag == 4 ? '打卡记录不完整'
+                        : att.flag == 5 ? '节假日加班': att.flag == 6 ? '节假日加班半天' : att.flag == 7 ? '请假' : '其他'}"></td>
                         <td><a data-toggle="modal" data-target="#myModal1" role="button"
                                th:onclick="'javascript:modifyAttendanceRecord(\''+${att.toString()}+'\')'">修改</a></td>
                     </tr>

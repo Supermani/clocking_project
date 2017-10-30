@@ -2,8 +2,11 @@ package com.primeton.manage.utils;
 
 public enum DateType {
 
+    //2节假日,1休息日,0工作日
+
     HOLIDAY(2),
-    WORKDAY(1);
+    RESTDAY(1),
+    WORKDAY(0);
 
     private Integer type;
 

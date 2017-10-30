@@ -2,6 +2,7 @@ package com.primeton.manage.employee.service.impl;
 
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,7 @@ import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import com.primeton.manage.employee.dao.EmployeeInfoRepository;
 import com.primeton.manage.utils.DateType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -44,6 +46,9 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 
 	@Autowired
 	private AttendanceRepository repository;
+
+	@Autowired
+	private EmployeeInfoRepository empRepository;
 
 	@Autowired
 	private HolidayCacheService holidayCacheService;
@@ -82,6 +87,10 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 				int startRowNum = 1;
 				int lastRowNum = sheet.getLastRowNum();
 				List<AttendanceRecord> list = new ArrayList<AttendanceRecord>(lastRowNum + 1);
+
+				//获取员工表中所有员工，如果不存在，则不导入。
+				List<BigInteger> empList = empRepository.findAllEmpId();
+
 				while (startRowNum <= lastRowNum) {
 					Row row = sheet.getRow(startRowNum);
 					if(row == null){
@@ -92,6 +101,12 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 					String idStr = ExcelUtils.parseExcel(row.getCell(0));
 					if (StringUtils.isEmpty(idStr)) {
 						logger.info("检测当前id列为空, 可能为异常数据跳过该行. 行号:" + row.getRowNum());
+						startRowNum += 1;
+						continue;
+					}
+
+					if (!empList.contains(BigInteger.valueOf(Long.valueOf(idStr)))) {
+						logger.info("检测当前id(" + idStr + ")不在员工表内，可能不是该公司员工跳过该行. 行号:" + row.getRowNum());
 						startRowNum += 1;
 						continue;
 					}
@@ -107,25 +122,23 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 
 					String outTime = ExcelUtils.parseExcel(row.getCell(7));
 					
-					if(StringUtils.isEmpty(inTime) && StringUtils.isEmpty(outTime)){
-						// 如果今天是工作日并且没有出勤记录则插入一条请假记录
-						if(holidayCacheService.getTypeFromCache(attendanceStr) == DateType.HOLIDAY.getType()){
-							list.add(new AttendanceRecord(id, attendanceDate, week, null, null, null, null,
-									0, AttendanceStatus.LEAVE_APPLICATION.id));
-						}
-
-						logger.info("签到和签退时间都为空, 可能为无效数据跳过该行. 行号:" + startRowNum);
-						startRowNum += 1;
-						continue;
-					}
-					
 					//检测该月份数据是否导入过，如果导入过将结束，不重复导入。
 					int existRecord = repository.existRecord(attendanceDate);
 					if(existRecord > 0){
 						logger.info("导入记录已存在，无法导入. 行号:" + startRowNum);
 						break;
 					}
-					
+
+					// 如果今天是工作日并且没有出勤记录则插入一条请假记录
+					if(StringUtils.isEmpty(inTime) && StringUtils.isEmpty(outTime)){
+						if(holidayCacheService.getTypeFromCache(attendanceStr) == DateType.WORKDAY.getType()){
+							list.add(new AttendanceRecord(id, attendanceDate, week, null, null, null, null,
+									0, AttendanceStatus.LEAVE_APPLICATION.id));
+						}
+						startRowNum += 1;
+						continue;
+					}
+
 					//计算
 					Map<String, Object> map = attendInfoCalc(inTime, outTime, attendanceDate);
 					String lateTime = (String) map.get("LateTime");
@@ -136,6 +149,7 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 					list.add(new AttendanceRecord(id, attendanceDate, week, inTime, outTime, lateTime, leaveTime,
 							workOuttime, flag));
 					startRowNum += 1;
+
 				}
 				repository.save(list);
 			}
