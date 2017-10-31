@@ -1,17 +1,14 @@
 package com.primeton.manage.employee.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.primeton.manage.employee.dao.HolidayRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
-import com.primeton.manage.employee.dao.HolidayRepository;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class HolidayCacheService {
@@ -30,14 +27,11 @@ public class HolidayCacheService {
 	 */
 	@Cacheable(value = "guavaCacheHoliday", key = "#date")
 	public Integer getTypeFromCache(String date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.out.println(sdf.format(new Date()) + " : query data is " + date);
 
 		Integer dateType = holidayCache.get(date);
 
 		// 缓存没有
 		if (dateType == null) {
-			System.out.println("缓存没有命中, 查询数据库");
 			dateType = holidayRepository.findDateTypeBy(java.sql.Date.valueOf(date));
 			return updateCache(date, dateType);
 		}
@@ -47,10 +41,7 @@ public class HolidayCacheService {
 
 	@CachePut(value = "guavaCacheHoliday", key = "#date")
 	public Integer updateCache(String date, Integer dateType) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.out.println(sdf.format(new Date()) + " : add data ,date is " + date);
 		holidayCache.put(date, dateType);
-		// data persistence  
 		return dateType;
 	}
 	

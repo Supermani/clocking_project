@@ -25,6 +25,6 @@ public interface AttendanceRepository extends JpaRepository<AttendanceRecord, Lo
 	@Query(value = "SELECT count(1) FROM attendance_record WHERE emp_id=:empId and attendance_date between :startDate and :endDate AND flag in (0,1,2,3,4)",nativeQuery = true)
 	public Integer findAttendanceDays(@Param("empId") Long empId, @Param("startDate") String startDate,@Param("endDate") String endDate);
 	
-	@Query(value = "SELECT count(1) FROM attendance_record WHERE attendance_date=:date",nativeQuery = true)
-	public Integer existRecord(@Param("date") Date date);
+	@Query(value = "SELECT count(1) FROM attendance_record WHERE emp_id=:empId and attendance_date=:date",nativeQuery = true)
+	public Integer existRecord(@Param("date") Date date, @Param("empId") Long empId);
 }

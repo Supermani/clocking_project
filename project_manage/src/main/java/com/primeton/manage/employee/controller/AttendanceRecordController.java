@@ -6,7 +6,6 @@ import com.primeton.manage.employee.service.EmployeeInfoService;
 import com.primeton.manage.statistics.AttendanceCalculation;
 import com.primeton.manage.utils.AttendanceStatus;
 import com.primeton.manage.utils.ConstUtils;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
@@ -116,11 +115,9 @@ public class AttendanceRecordController {
 
 		int pageNumber = Integer.parseInt(pageNumberStr);
 		int pageSize = Integer.MAX_VALUE;
-
-		System.out.println("----------------------startDate is " + startDate);
 		
 		File file = new File("PrimetonRecord_"+ startDate.substring(0, 7)+".csv");
-		try (PrintWriter pw = new PrintWriter(file)) {
+		try (PrintWriter pw = new PrintWriter(file);FileInputStream fis = new FileInputStream(file)) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("考勤号码").append(",").append("姓名").append(",").append("星期").append(",").append("日期").append(",")
 				.append("签到时间").append(",").append("签退时间").append(",").append("休假(小时)").append(",").append("	迟到(分钟)")
@@ -142,7 +139,7 @@ public class AttendanceRecordController {
 
 			pw.flush();
 			OutputStream outPutStream = response.getOutputStream();
-			FileInputStream fis = new FileInputStream(file);
+
 			if (fis.available() != 0) {
 				response.setStatus(200);
 			}
@@ -165,10 +162,8 @@ public class AttendanceRecordController {
 			@RequestParam(name = "endDate", required = false) String endDate,
 			@RequestParam(name = "isOnJob", required = false) String isOnJob){
 		
-		System.out.println("----------------------startDate is " + startDate);
-		
 		File file = new File("PrimetonStatis_"+startDate.substring(0, 7)+".csv");
-		try (PrintWriter pw = new PrintWriter(file)) {
+		try (PrintWriter pw = new PrintWriter(file);FileInputStream fis = new FileInputStream(file)) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("考勤号码").append(",").append("姓名").append(",").append("工作日出勤天数").append(",").append("人月数")
 				.append(",").append("节假日加班天数").append(",").append("工作日加班小时数");
@@ -185,7 +180,7 @@ public class AttendanceRecordController {
 
 			pw.flush();
 			OutputStream outPutStream = response.getOutputStream();
-			FileInputStream fis = new FileInputStream(file);
+
 			if (fis.available() != 0) {
 				response.setStatus(200);
 			}

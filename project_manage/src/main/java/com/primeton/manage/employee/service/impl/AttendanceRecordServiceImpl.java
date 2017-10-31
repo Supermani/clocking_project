@@ -57,12 +57,9 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 	EntityManager entityManager;
 
 	public void importRecord(MultipartHttpServletRequest multiReq) {
-		try (InputStream fis = multiReq.getFile("file1").getInputStream()) {
-			
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
-			
-			Workbook wb = null;
+		try {
+
+			Workbook wb;
 
 			MultipartFile file = multiReq.getFile("file1");
 			// 获取上传文件的路径
@@ -86,7 +83,7 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 
 				int startRowNum = 1;
 				int lastRowNum = sheet.getLastRowNum();
-				List<AttendanceRecord> list = new ArrayList<AttendanceRecord>(lastRowNum + 1);
+				List<AttendanceRecord> list = new ArrayList<>(lastRowNum + 1);
 
 				//获取员工表中所有员工，如果不存在，则不导入。
 				List<BigInteger> empList = empRepository.findAllEmpId();
@@ -94,19 +91,19 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 				while (startRowNum <= lastRowNum) {
 					Row row = sheet.getRow(startRowNum);
 					if(row == null){
-						logger.info("检测当前id列为空, 可能为异常数据跳过该行. 行号:" + startRowNum);
+						logger.warn("检测当前id列为空, 可能为异常数据跳过该行. 行号:" + startRowNum);
 						startRowNum += 1;
 						continue;
 					}
 					String idStr = ExcelUtils.parseExcel(row.getCell(0));
 					if (StringUtils.isEmpty(idStr)) {
-						logger.info("检测当前id列为空, 可能为异常数据跳过该行. 行号:" + row.getRowNum());
+						logger.warn("检测当前id列为空, 可能为异常数据跳过该行. 行号:" + row.getRowNum());
 						startRowNum += 1;
 						continue;
 					}
 
 					if (!empList.contains(BigInteger.valueOf(Long.valueOf(idStr)))) {
-						logger.info("检测当前id(" + idStr + ")不在员工表内，可能不是该公司员工跳过该行. 行号:" + row.getRowNum());
+						logger.warn("检测当前id(" + idStr + ")不在员工表内，可能不是该公司员工跳过该行. 行号:" + row.getRowNum());
 						startRowNum += 1;
 						continue;
 					}
@@ -123,10 +120,11 @@ public class AttendanceRecordServiceImpl implements AttendanceRecordService {
 					String outTime = ExcelUtils.parseExcel(row.getCell(7));
 					
 					//检测该月份数据是否导入过，如果导入过将结束，不重复导入。
-					int existRecord = repository.existRecord(attendanceDate);
+					int existRecord = repository.existRecord(attendanceDate, id);
 					if(existRecord > 0){
 						logger.info("导入记录已存在，无法导入. 行号:" + startRowNum);
-						break;
+						startRowNum += 1;
+						continue;
 					}
 
 					// 如果今天是工作日并且没有出勤记录则插入一条请假记录
