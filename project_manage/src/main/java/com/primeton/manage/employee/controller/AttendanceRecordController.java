@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -94,10 +95,10 @@ public class AttendanceRecordController {
 	}
 
     @PostMapping(value = "modify")
-    public String modify(HttpServletRequest request, AttendanceRecord attendanceRecord) {
+    public String modify(@RequestHeader("Referer") String referer,
+						 @RequestHeader("Host") String host,
+						 AttendanceRecord attendanceRecord) {
         service.modify(attendanceRecord);
-        String referer = request.getHeader("Referer");
-        String host = request.getHeader("Host");
         String uri = StringUtils.substringAfter(referer, host);
         return "redirect:" + uri;
     }
