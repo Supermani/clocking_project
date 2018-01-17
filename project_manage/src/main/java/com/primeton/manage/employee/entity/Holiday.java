@@ -1,5 +1,10 @@
 package com.primeton.manage.employee.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -10,6 +15,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "holiday")
+@Data
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Holiday {
 	
 	@Id
@@ -21,14 +30,5 @@ public class Holiday {
 	
 	@Column
 	public Integer dateType; //2节假日,1休息日
-
-	public Holiday(){
-	}
-	
-	public Holiday(Date date, Integer dateType) {
-		super();
-		this.date = date;
-		this.dateType = dateType;
-	}
 	
 }

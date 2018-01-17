@@ -3,6 +3,7 @@ package com.primeton.manage.utils;
 import java.io.IOException;
 import java.util.Properties;
 
+import lombok.NoArgsConstructor;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -11,14 +12,12 @@ import org.apache.log4j.Logger;
  * @author zhangyingwen
  *
  */
+@NoArgsConstructor
 public class PropertyUtil {
 	
 	private static Logger logger = LogManager.getLogger(PropertyUtil.class);
 	private static Properties pro;
-	
-	private PropertyUtil(){
-		
-	}
+
 	/**
 	 * 获得连接
 	 * @param key
