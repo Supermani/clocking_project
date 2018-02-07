@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -78,14 +79,16 @@ public class EmployeeInfoController {
 	}
 
 	@RequestMapping("/edit")
-	public String edit(HttpServletRequest request, @RequestParam(name="id", required=false) String id,
-			@RequestParam(name="empName", required=false) String name,
-			@RequestParam(name="startDate", required=false) String startDate,
-			@RequestParam(name="endDate", required=false) String endDate,
-			@RequestParam(name="isOnJob", required=false) String isOnJob) {
+	public String edit(
+					   @RequestHeader("Referer") String referer,
+					   @RequestHeader("Host") String host,
+					   @RequestParam(name="id", required=false) String id,
+					   @RequestParam(name="empName", required=false) String name,
+					   @RequestParam(name="startDate", required=false) String startDate,
+					   @RequestParam(name="endDate", required=false) String endDate,
+					   @RequestParam(name="isOnJob", required=false) String isOnJob) {
 		employeeInfoService.edit(id, name, startDate, endDate, isOnJob);
-		String referer = request.getHeader("Referer");
-		String host = request.getHeader("Host");
+
 		String uri = StringUtils.substringAfter(referer, host);
 		return "redirect:" + uri;
 	}
