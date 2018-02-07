@@ -1,6 +1,7 @@
 package com.primeton.manage.employee.dao;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import com.primeton.manage.employee.entity.AttendanceRecord;
 
 public interface AttendanceRepository extends JpaRepository<AttendanceRecord, Long> {
+
+	List<AttendanceRecord> findByEmpIdAndAttendanceDateBetween(Long empId, String startDate, String endDate);
 	
 	@Query(value = "SELECT COALESCE(sum(work_outtime),0) FROM attendance_record WHERE emp_id=:empId and attendance_date between :startDate and :endDate AND flag!=5",nativeQuery = true)
 	public Double findWorkOverTime(@Param("empId") Long empId, @Param("startDate") String startDate,@Param("endDate") String endDate);

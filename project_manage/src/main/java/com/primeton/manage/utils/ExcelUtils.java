@@ -1,9 +1,8 @@
 package com.primeton.manage.utils;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -11,8 +10,11 @@ import org.apache.poi.hssf.usermodel.HSSFDataFormat;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ExcelUtils {
+	private static Logger logger = LoggerFactory.getLogger(ExcelUtils.class);
 
 	@SuppressWarnings("deprecation")
 	public static String parseExcel(Cell cell) {
@@ -51,7 +53,14 @@ public class ExcelUtils {
 		case HSSFCell.CELL_TYPE_STRING:// String类型  
 			result = cell.getRichStringCellValue().toString();
 			if(result.contains("/")){
-				result = LocalDate.parse(result, DateTimeFormatter.ofPattern("yyyy/M/d")).toString();
+				// LocalDate.parse(result, DateTimeFormatter.ofPattern("yyyy/M/d")).toString();
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/M/d");
+				SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd");
+				try {
+					result = sd.format(sdf.parse(result)).toString();
+				} catch (ParseException e) {
+					logger.error("解析日期" + result + "失败！");
+				}
 			}
 			break;
 		case HSSFCell.CELL_TYPE_BLANK:
