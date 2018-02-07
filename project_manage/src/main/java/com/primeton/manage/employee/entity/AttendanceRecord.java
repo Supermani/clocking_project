@@ -92,6 +92,23 @@ public class AttendanceRecord implements Serializable{
 		this.workOuttime = workOuttime;
 		this.flag = flag;
 	}
+	
+	public AttendanceRecord(long id, java.util.Date attendanceDate, String todayWeek, String signinTime, String signoutTime,String empName,
+			int vacationHour, String lateTime, String leaveTime, double workOuttime, int flag, Long empId) {
+		this.id = id;
+		this.attendanceDate = (Date) attendanceDate;
+		this.todayWeek = todayWeek;
+		this.signinTime = signinTime;
+		this.signoutTime = signoutTime;
+		this.empName = empName;
+		this.vacationHour = vacationHour;
+		this.lateTime = lateTime;
+		this.leaveTime = leaveTime;
+		this.workOuttime = workOuttime;
+		this.flag = flag;
+		this.empId = empId;
+
+	}
 
 
 	@Override
